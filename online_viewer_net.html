@@ -1,0 +1,150 @@
+Put your HTML text <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Nicks - MaxKKK</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f0f0f;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #1e1e1e;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(85, 255, 85, 0.2);
+            text-align: center;
+            width: 400px;
+            border: 1px solid #333;
+        }
+        h2 { color: #55ff55; margin-bottom: 0.5rem; text-transform: uppercase; }
+        p { color: #888; font-size: 0.9rem; margin-bottom: 1.5rem; }
+        
+        .nick-display {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            padding: 15px;
+            background: #000;
+            border-radius: 10px;
+            color: #55ff55;
+            min-height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed #444;
+        }
+        
+        button {
+            background-color: #55ff55;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+        button:hover { background-color: #77ff77; transform: translateY(-2px); }
+        button:active { transform: translateY(0); }
+
+        .history-box {
+            margin-top: 20px;
+            text-align: left;
+            background: #111;
+            padding: 10px;
+            border-radius: 8px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        .history-box strong { color: #55ff55; font-size: 0.8rem; }
+        .nick-item { font-family: monospace; color: #00e6e6; margin-right: 8px; font-size: 1rem; }
+
+        footer {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+            font-size: 0.85rem;
+        }
+        footer a {
+            color: #55ff55;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>MC Nick Gen</h2>
+    <p>Nicks de 3 a 8 caracteres (A-Z, 0-9, _)</p>
+    
+    <div class="nick-display" id="nickDisplay">CLIQUE ABAIXO</div>
+    
+    <button onclick="generateNick()">GERAR NOVO NICK</button>
+
+    <div class="history-box" id="historyBox">
+        <strong>HISTÓRICO:</strong><br>
+        <div id="history"></div>
+    </div>
+
+    <footer>
+        Criado por: <a href="https://www.youtube.com/@maxkkk-l8g" target="_blank">MaxKKK</a>
+    </footer>
+</div>
+
+<script>
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numbers = "0123456789";
+    const special = "_";
+    const vowels = "AEIOU";
+
+    function generateNick() {
+        // Define um tamanho aleatório entre 3 e 8
+        const size = Math.floor(Math.random() * (8 - 3 + 1)) + 3;
+        let nick = "";
+
+        // Lógica de geração "bonita"
+        for (let i = 0; i < size; i++) {
+            if (i % 2 === 0) {
+                // Posições pares: Consoantes ou Underline raro
+                if (Math.random() > 0.9 && i !== 0 && i !== size - 1) {
+                    nick += special;
+                } else {
+                    const cons = "BCDFGHJKLMNPQRSTVWXYZ";
+                    nick += cons[Math.floor(Math.random() * cons.length)];
+                }
+            } else {
+                // Posições ímpares: Vogais ou Números
+                if (Math.random() > 0.7) {
+                    nick += numbers[Math.floor(Math.random() * numbers.length)];
+                } else {
+                    nick += vowels[Math.floor(Math.random() * vowels.length)];
+                }
+            }
+        }
+
+        // Exibe o nick
+        document.getElementById('nickDisplay').innerText = nick;
+        
+        // Adiciona ao histórico (no topo)
+        const historyDiv = document.getElementById('history');
+        const span = document.createElement('span');
+        span.className = 'nick-item';
+        span.innerText = nick;
+        historyDiv.prepend(span);
+    }
+</script>
+
+</body>
+</html>
